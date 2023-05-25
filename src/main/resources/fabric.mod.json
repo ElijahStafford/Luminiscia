@@ -20,7 +20,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.luminiscia.luminiscia.Luminiscia"
+      "net.elijahandpaige.luminiscia.Luminiscia"
+    ],
+    "client": [
+      "net.elijahandpaige.luminiscia.LuminisciaClient"
     ]
   },
   "mixins": [
