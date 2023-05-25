@@ -1,4 +1,4 @@
-package net.elijahandpaige.luminsicia;
+package net.elijahandpaige.luminiscia;
 
 import net.fabricmc.api.ClientModInitializer;
 
