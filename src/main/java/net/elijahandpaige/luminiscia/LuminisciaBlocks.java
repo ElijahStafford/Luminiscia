@@ -16,39 +16,17 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class LuminisciaBlocks {
-    public static Block PYROFLUXITE_ORE = null;
-
-    public static ItemGroup LUMINISCIA_GROUP = FabricItemGroup.builder(
-            new Identifier(Luminiscia.MOD_ID, "luminiscia_group"))
-            .displayName(Text.of("Luminiscia"))
-            .icon(() -> new ItemStack(PYROFLUXITE_ORE))
-            .build();
+    public static final Block PYROFLUXITE_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(3.0f, 3.0f));
 
     public static void registerAll() {
-        PYROFLUXITE_ORE = registerBlock(
-                "pyrofluxite_ore",
-                new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(3.0f, 3.0f))
-        );
+        registerBlock("pyrofluxite_ore", PYROFLUXITE_ORE);
     }
 
     private static Block registerBlock(String name, Block block) {
-        var item = registerBlockItem(name, block);
-        ItemGroupEvents.modifyEntriesEvent(LUMINISCIA_GROUP).register(content -> {
-            content.add(item);
-        });
-
         return Registry.register(
                 Registries.BLOCK,
                 new Identifier(Luminiscia.MOD_ID, name),
                 block
-        );
-    }
-
-    private static Item registerBlockItem(String name, Block block) {
-        return Registry.register(
-                Registries.ITEM,
-                new Identifier(Luminiscia.MOD_ID, name),
-                new BlockItem(block, new FabricItemSettings())
         );
     }
 }

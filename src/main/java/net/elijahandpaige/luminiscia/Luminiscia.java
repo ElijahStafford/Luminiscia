@@ -11,5 +11,6 @@ public class Luminiscia implements ModInitializer {
     @Override
     public void onInitialize() {
         LuminisciaBlocks.registerAll();
+        LuminisciaItems.registerAll();
     }
 }
