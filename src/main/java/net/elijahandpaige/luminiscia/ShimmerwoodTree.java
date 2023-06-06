@@ -1,3 +1,5 @@
+package net.elijahandpaige.luminiscia;
+
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChorusFlowerBlock;
