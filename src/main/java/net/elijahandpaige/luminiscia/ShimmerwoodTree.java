@@ -1,48 +1,39 @@
-package net.elijahandpaige.luminiscia;
+import com.mojang.serialization.Codec;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ChorusFlowerBlock;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class ShimmerwoodTree extends Feature<ExampleFe> {
-    public Example(Codec<DefaultFeatureConfig> configCodec) {
-        super(configCodec);
+public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
+    public ShimmerwoodTree(Codec<DefaultFeatureConfig> codec) {
+        super(codec);
     }
 
-    // this method is what is called when the game tries to generate the feature. it is where the actual blocks get placed into the world.
-    @Override
-    public boolean generate(FeatureContext<ExampleFeatureConfig> context) {
+    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
-        // the origin is the place where the game starts trying to place the feature
         BlockPos origin = context.getOrigin();
-        // we won't use the random here, but we could if we wanted to
-        Random random = context.getRandom();
-        ExampleFeatureConfig config = context.getConfig();
+        BlockPos testPos = origin;
 
-        // don't worry about where these come from-- we'll implement these methods soon
-        int number = config.number();
-        Identifier blockID = config.blockID();
+        if (world.getBlockState(testPos).isIn(BlockTags.DIRT)) {
+            if (world.getBlockState(testPos.up()).isOf(Blocks.AIR)) {
+                for (int i = 0; i < 6; i++) {
+                    // create a simple pillar of blocks
+                    world.setBlockState(testPos, Blocks.CHORUS_PLANT.getDefaultState(), 0x10);
+                    testPos = testPos.up();
 
-        BlockState blockState = Registry.field_11146.get(blockID).getDefaultState();
-//        ensure the ID is okay
-        if (blockState == null) throw new IllegalStateException(blockID + " could not be parsed to a valid block identifier!");
-
-        // find the surface of the world
-        BlockPos testPos = new BlockPos(origin);
-        for (int y = 0; y < world.getHeight(); y++) {
-            testPos = testPos.up();
-            // the tag name is dirt, but includes grass, mud, podzol, etc.
-            if (world.getBlockState(testPos).isIn(BlockTags.DIRT)) {
-                if (world.getBlockState(testPos.up()).isOf(Blocks.AIR)) {
-                    for (int i = 0; i < number; i++) {
-//            create a simple pillar of blocks
-                        world.setBlockState(testPos, blockState, 0x10);
-                        testPos = testPos.up();
-
-                        // ensure we don't try to place blocks outside the world
-                        if (testPos.getY() >= world.getTopY()) break;
-                    }
-                    return true;
+                    // ensure we don't try to place blocks outside the world
+                    if (testPos.getY() >= world.getTopY()) break;
                 }
+                return true;
             }
         }
-//        the game couldn't find a place to put the pillar
+
         return false;
     }
 }
