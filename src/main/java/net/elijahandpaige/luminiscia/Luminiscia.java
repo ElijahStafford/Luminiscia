@@ -12,5 +12,8 @@ public class Luminiscia implements ModInitializer {
     public void onInitialize() {
         LuminisciaBlocks.registerAll();
         LuminisciaItems.registerAll();
+        LuminisciaDimension.register();
+
+
     }
 }
