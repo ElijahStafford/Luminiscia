@@ -1,7 +1,5 @@
 {
   "block.luminiscia.pyrofluxite_ore": "Pyrofluxite Ore",
   "item.luminiscia.pyrofluxite": "Pyrofluxite",
-
-  "block.luminiscia.shimmerwood_log": "Shimmerwood Log",
-  "item.luminiscia.pyrofluxite": "Shimmerwood Log"
+  "block.luminiscia.shimmerwood_log": "Shimmerwood Log"
 }
