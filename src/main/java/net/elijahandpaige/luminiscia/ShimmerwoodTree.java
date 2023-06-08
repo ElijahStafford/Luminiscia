@@ -29,21 +29,15 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         BlockPos origin = context.getOrigin();
         BlockPos testPos = origin;
 
-        if (world.getBlockState(testPos).isIn(BlockTags.DIRT)) {
-            if (world.getBlockState(testPos.up()).isOf(Blocks.AIR)) {
-                for (int i = 0; i < 6; i++) {
-                    // create a simple pillar of blocks
-                    world.setBlockState(testPos, Blocks.CHORUS_PLANT.getDefaultState(), 0x10);
-                    testPos = testPos.up();
+        for (int i = 0; i < 6; i++) {
+            // create a simple pillar of blocks
+            world.setBlockState(testPos, Blocks.CHORUS_PLANT.getDefaultState(), 0x10);
+            testPos = testPos.up();
 
-                    // ensure we don't try to place blocks outside the world
-                    if (testPos.getY() >= world.getTopY()) break;
-                }
-                return true;
-            }
+            // ensure we don't try to place blocks outside the world
+            if (testPos.getY() >= world.getTopY()) break;
         }
-
-        return false;
+        return true;
     }
 
     public static void register() {

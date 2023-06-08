@@ -47,9 +47,6 @@ public class Luminiscia implements ModInitializer {
                         var source = context.getSource();
                         ServerWorld serverWorld = source.getWorld();
                         var pos = BlockPos.ofFloored(source.getPosition());
-                        var block = BlockStateArgumentType.getBlockState(context, "pos");
-                        block.setBlockState(serverWorld, pos, 2);
-                        serverWorld.updateNeighbors(pos, Blocks.CHORUS_PLANT);
                         SHIMMERWOOD_TREE_CONFIGURED.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), serverWorld.getRandom(), pos);
                         source.sendFeedback(Text.literal("hi loser"), false);
                         return 1;
@@ -67,7 +64,6 @@ public class Luminiscia implements ModInitializer {
 //    }
         registerFuels();
         registerFlammableBlock();
-        Registry.register(Registries.FEATURE, new Identifier(MOD_ID, "shimmerwood_tree"), new ShimmerwoodTree(DefaultFeatureConfig.CODEC));
     }
 
 
