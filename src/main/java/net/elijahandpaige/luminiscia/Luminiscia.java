@@ -3,6 +3,8 @@ package net.elijahandpaige.luminiscia;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
@@ -56,7 +58,6 @@ public class Luminiscia implements ModInitializer {
 
         Registry.register(Registries.FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE);
         // Registry.register(RegistryKeys.CONFIGURED_FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE_CONFIGURED);
-    }
 
 //    public static Vec3i splinePositions(ArrayList<Vec3i> positions, double position) {
 //        if (positions.size() <= 1)
@@ -64,4 +65,22 @@ public class Luminiscia implements ModInitializer {
 //
 //
 //    }
+        registerFuels();
+        registerFlammableBlock();
+        Registry.register(Registries.FEATURE, new Identifier(MOD_ID, "shimmerwood_tree"), new ShimmerwoodTree(DefaultFeatureConfig.CODEC));
+    }
+
+
+    private static void registerFuels() {
+        FuelRegistry registry = FuelRegistry.INSTANCE;
+        registry.add(LuminisciaItems.SHIMMERWOOD_LOG, 500);
+
+    }
+
+    private static void registerFlammableBlock() {
+        FlammableBlockRegistry flamInstance = FlammableBlockRegistry.getDefaultInstance();
+
+        flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_LOG, 5, 5);
+
+    }
 }
