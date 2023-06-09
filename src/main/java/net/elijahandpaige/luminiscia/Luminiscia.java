@@ -48,7 +48,6 @@ public class Luminiscia implements ModInitializer {
                         ServerWorld serverWorld = source.getWorld();
                         var pos = BlockPos.ofFloored(source.getPosition());
                         SHIMMERWOOD_TREE_CONFIGURED.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), serverWorld.getRandom(), pos);
-                        source.sendFeedback(Text.literal("hi loser"), false);
                         return 1;
                     }));
         });
