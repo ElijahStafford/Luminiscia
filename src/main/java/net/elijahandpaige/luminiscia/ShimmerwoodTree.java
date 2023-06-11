@@ -23,58 +23,149 @@ import java.util.Random;
 import static net.elijahandpaige.luminiscia.Luminiscia.MOD_ID;
 
 public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
+    public Random rand = new Random();
 
     public ShimmerwoodTree(Codec<DefaultFeatureConfig> codec) {
         super(codec);
     }
 
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-        StructureWorldAccess world = context.getWorld();
-        BlockPos origin = context.getOrigin();
-        var currPos = new Vec3d(origin.getX(), origin.getY(), origin.getZ());
+        final int STEM_PITCH_MIN = -10;
+        final int STEM_PITCH_MAX = -70;
+        final int STEM_ROTATE_MIN = 40;
+        final int STEM_ROTATE_MAX = 120;
+        final int STEM_STEPS = 5;
 
-        var pos = new ArrayList<Vec3i>();
-        var helix = new ArrayList<Vec3i>();
-        var rand = new Random();
-        var direction = new Vec3d(0, 0, 10);
+        StructureWorldAccess world = context.getWorld();
+        Vec3i currPos = context.getOrigin();
+
+        var stemPositions = new ArrayList<Vec3i>();
+        var helixPositions = new ArrayList<Vec3i>();
+        var stemDirectionVector = new Vec3i(0, 0, 10);
 
         var clockwise = rand.nextBoolean() ? 1 : -1;
         var totalRot = rand.nextInt(360);
-        var steps = 5;
 
-        for (int i = 0; i <= steps; i++) {
-            var fraction = i / (float)steps;
-            var centerFract = Math.max(1 - Math.abs(0.5 - (0.2 + fraction * 0.8)) * 2, 0);
+        for (int i = 0; i <= STEM_STEPS; i++) {
+            float fraction = i / (float)STEM_STEPS;
+            float centerFract = Math.max(1 - Math.abs(0.5f - (0.2f + fraction * 0.8f)) * 2, 0);
 
-            totalRot += clockwise * (rand.nextInt(40) + 80);
+            totalRot += clockwise * rand.nextInt(STEM_ROTATE_MIN, STEM_ROTATE_MAX);
             totalRot %= 360;
-            var rotation = new Vec2f(-rand.nextInt(40) - 30, totalRot);
 
-            pos.add(new Vec3i(
-                    Math.round((float) currPos.x),
-                    Math.round((float) currPos.y),
-                    Math.round((float) currPos.z)
-            ));
+            var rotation = new Vec2f(rand.nextInt(STEM_PITCH_MAX, STEM_PITCH_MIN), totalRot);
 
-            var helixPos = rotateVector(new Vec3d(8 * centerFract * clockwise,0,0), rotation, currPos);
+            stemPositions.add(currPos);
 
-            helix.add(new Vec3i(
-                    Math.round((float) helixPos.x),
-                    Math.round((float) helixPos.y),
-                    Math.round((float) helixPos.z)
-            ));
+            int helixOutwardLength = Math.round(8 * centerFract * clockwise);
+            var helixPos = rotateVector(new Vec3i(helixOutwardLength,0,0), rotation, currPos);
 
-            currPos = rotateVector(direction, rotation, currPos);
+            helixPositions.add(helixPos);
+
+            if (i == STEM_STEPS) {
+                for (int x = 0; x >= -60; x -= 20) {
+                    for (int y = 0; y < 360; y += 60 - x) {
+                        branch(world, currPos, x, y, 0);
+                    }
+                }
+            }
+
+            currPos = rotateVector(stemDirectionVector, rotation, currPos);
         }
 
-        drawCurve(world, pos, steps * 5, 6, 2);
-        drawCurve(world, helix, steps * 10, 3, 2);
-
-        for (var position : pos) {
-            setBlockState(world, new BlockPos(position), Blocks.DIAMOND_BLOCK.getDefaultState());
-        }
+        drawCurve(world, stemPositions, STEM_STEPS * 5, 6, 2);
+        drawCurve(world, helixPositions, STEM_STEPS * 10, 3, 2);
 
         return true;
+    }
+
+
+    public Vec3d vec3ito3d(Vec3i vec) {
+        return new Vec3d(vec.getX(), vec.getY(), vec.getZ());
+    }
+
+    public Vec3i vec3dTo3i(Vec3d vec) {
+        return new Vec3i(
+                Math.round((float) vec.x),
+                Math.round((float) vec.y),
+                Math.round((float) vec.z)
+        );
+    }
+
+    public Vec3i vec3dTo3i(float x, float y, float z) {
+        return new Vec3i(
+                Math.round(x),
+                Math.round(y),
+                Math.round(z)
+        );
+    }
+
+    public void branch(
+            StructureWorldAccess world,
+            Vec3i position,
+            int rotationX,
+            int rotationY,
+            int depth
+    ) {
+        final int MAX_BRANCHES = 3;
+        final int ROTATION_NOISE = 60;
+        final int MIN_DIST = 6;
+        final int MAX_DIST = 15;
+        final int MAX_DEPTH = 3;
+        final int LEAVES_RADIUS = 3;
+
+        if (depth > MAX_DEPTH) {
+            return;
+        }
+
+        var branches = rand.nextInt(0, MAX_BRANCHES + 1);
+
+        for (int b = 0; b < branches; b++) {
+            var newRotationX = MathHelper.clamp(rotationX + rand.nextInt(-ROTATION_NOISE, ROTATION_NOISE / 2), -90, 90);
+            var newRotationY = (rotationY + rand.nextInt(-ROTATION_NOISE, ROTATION_NOISE)) % 360;
+            var dist = rand.nextInt(MIN_DIST, MAX_DIST);
+            var rotatedVector = rotateVector(new Vec3i(0,0,dist), new Vec2f(newRotationX, newRotationY));
+
+            Vec3i newPos = null;
+
+            int sphereProgress = LEAVES_RADIUS + 2;
+
+            for (float i = 0; i <= dist; i += 0.8) {
+                float scalar = i / dist;
+                scalar *= (depth + 1) / (float)MAX_DEPTH;
+
+                newPos = vec3dTo3i(
+                        rotatedVector.getX() * scalar + position.getX(),
+                        rotatedVector.getY() * scalar + position.getY(),
+                        rotatedVector.getZ() * scalar + position.getZ()
+                );
+
+                sphereProgress++;
+
+                if (sphereProgress > LEAVES_RADIUS + 2 || i > dist - 0.8) {
+                    sphereProgress = 0;
+                    for (int x = -LEAVES_RADIUS; x <= LEAVES_RADIUS; x++) {
+                        for (int y = -LEAVES_RADIUS; y <= LEAVES_RADIUS; y++) {
+                            for (int z = -LEAVES_RADIUS; z <= LEAVES_RADIUS; z++) {
+                                var magnitude = Math.sqrt(x * x + y * y + z * z);
+
+                                if (magnitude > LEAVES_RADIUS || magnitude < LEAVES_RADIUS - 1) {
+                                    continue;
+                                }
+
+                                var pos = new BlockPos(newPos).add(x, y, z);
+                                if (world.isAir(pos))
+                                    setBlockState(world, pos, Blocks.BLUE_STAINED_GLASS.getDefaultState());
+                            }
+                        }
+                    }
+                }
+
+                setBlockState(world, new BlockPos(newPos), LuminisciaBlocks.SHIMMERWOOD_LOG.getDefaultState());
+            }
+
+            branch(world, newPos, rotationX, rotationY, depth + 1);
+        }
     }
 
     public void drawCurve(
@@ -105,11 +196,11 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         }
     }
 
-    public Vec3d rotateVector(Vec3d vector, Vec2f rotation) {
-        return rotateVector(vector, rotation, new Vec3d(0, 0, 0));
+    public Vec3i rotateVector(Vec3i vector, Vec2f rotation) {
+        return rotateVector(vector, rotation, new Vec3i(0, 0, 0));
     }
 
-    public Vec3d rotateVector(Vec3d vector, Vec2f rotation, Vec3d anchor) {
+    public Vec3i rotateVector(Vec3i vector, Vec2f rotation, Vec3i anchor) {
         float f = MathHelper.cos((rotation.y + 90.0F) * 0.017453292F);
         float g = MathHelper.sin((rotation.y + 90.0F) * 0.017453292F);
         float h = MathHelper.cos(-rotation.x * 0.017453292F);
@@ -119,9 +210,9 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         Vec3d vec3d2 = new Vec3d((double) (f * h), (double) i, (double) (g * h));
         Vec3d vec3d3 = new Vec3d((double) (f * j), (double) k, (double) (g * j));
         Vec3d vec3d4 = vec3d2.crossProduct(vec3d3).multiply(-1.0);
-        double d = vec3d2.x * vector.z + vec3d3.x * vector.y + vec3d4.x * vector.x;
-        double e = vec3d2.y * vector.z + vec3d3.y * vector.y + vec3d4.y * vector.x;
-        double l = vec3d2.z * vector.z + vec3d3.z * vector.y + vec3d4.z * vector.x;
-        return new Vec3d(anchor.x + d, anchor.y + e, anchor.z + l);
+        double d = vec3d2.x * vector.getZ() + vec3d3.x * vector.getY() + vec3d4.x * vector.getX();
+        double e = vec3d2.y * vector.getZ() + vec3d3.y * vector.getY() + vec3d4.y * vector.getX();
+        double l = vec3d2.z * vector.getZ() + vec3d3.z * vector.getY() + vec3d4.z * vector.getX();
+        return vec3dTo3i((float)(anchor.getX() + d), (float)(anchor.getY() + e), (float)(anchor.getZ() + l));
     }
 }
