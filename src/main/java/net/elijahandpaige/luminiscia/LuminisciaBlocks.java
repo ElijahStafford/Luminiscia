@@ -17,10 +17,12 @@ import net.minecraft.util.Identifier;
 public class LuminisciaBlocks {
     public static final Block PYROFLUXITE_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(3.0f, 3.0f));
     public static final Block SHIMMERWOOD_LOG = new PillarBlock(FabricBlockSettings.copy(Blocks.OAK_LOG).strength(4.0f).requiresTool());
+    public static final Block SHIMMERWOOD_PLANKS = new Block(FabricBlockSettings.copy(Blocks.OAK_PLANKS).strength(4.0f).requiresTool());
 
     public static void registerAll() {
         registerBlock("pyrofluxite_ore", PYROFLUXITE_ORE);
         registerBlock("shimmerwood_log", SHIMMERWOOD_LOG);
+        registerBlock("shimmerwood_planks", SHIMMERWOOD_PLANKS);
     }
 
     private static Block registerBlock(String name, Block block) {
