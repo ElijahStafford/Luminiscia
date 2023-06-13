@@ -25,8 +25,8 @@ public class LuminisciaBlocks {
         registerBlock("pyrofluxite_ore", PYROFLUXITE_ORE);
         registerBlock("shimmerwood_log", SHIMMERWOOD_LOG);
         registerBlock("shimmerwood_planks", SHIMMERWOOD_PLANKS);
-        registerBlock("shimmerwood_planks", SHIMMERWOOD_STAIRS);
-        registerBlock("shimmerwood_planks", SHIMMERWOOD_SLAB);
+        registerBlock("shimmerwood_stairs", SHIMMERWOOD_STAIRS);
+        registerBlock("shimmerwood_slab", SHIMMERWOOD_SLAB);
     }
 
     private static Block registerBlock(String name, Block block) {

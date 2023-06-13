@@ -34,7 +34,7 @@ public class LuminisciaItems {
         registerItem("pyrofluxite", PYROFLUXITE);
         registerItem("shimmerwood_log", SHIMMERWOOD_LOG);
         registerItem("shimmerwood_planks", SHIMMERWOOD_PLANKS);
-        registerItem("shimmerwood_planks", SHIMMERWOOD_STAIRS);
+        registerItem("shimmerwood_stairs", SHIMMERWOOD_STAIRS);
         registerItem("shimmerwood_slab", SHIMMERWOOD_SLAB);
     }
     private static Item registerItem(String name, Item item) {
