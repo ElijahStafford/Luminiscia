@@ -19,8 +19,8 @@ public class LuminisciaItems {
     public static final Item PYROFLUXITE_ORE = new BlockItem(LuminisciaBlocks.PYROFLUXITE_ORE, new FabricItemSettings());
     public static final Item SHIMMERWOOD_LOG = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_LOG, new FabricItemSettings());
     public static final Item SHIMMERWOOD_PLANKS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
-    public static final Item SHIMMERWOOD_STAIRS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
-    public static final Item SHIMMERWOOD_SLAB = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
+    public static final Item SHIMMERWOOD_STAIRS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_STAIRS, new FabricItemSettings());
+    public static final Item SHIMMERWOOD_SLAB = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_SLAB, new FabricItemSettings());
     public static final Item PYROFLUXITE = new Item(new FabricItemSettings());
 
     public static ItemGroup LUMINISCIA_GROUP = FabricItemGroup.builder(
