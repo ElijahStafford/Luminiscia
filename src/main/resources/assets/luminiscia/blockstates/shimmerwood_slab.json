@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
+    "type=bottom": {
+      "model": "luminiscia:block/shimmerwood_slab"
+    },
+    "type=double": {
       "model": "luminiscia:block/shimmerwood_planks"
+    },
+    "type=top": {
+      "model": "luminiscia:block/shimmerwood_slab_top"
     }
   }
 }
