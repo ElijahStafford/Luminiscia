@@ -31,7 +31,7 @@ public class LuminisciaItems {
         registerItem("pyrofluxite_ore", PYROFLUXITE_ORE);
         registerItem("pyrofluxite", PYROFLUXITE);
         registerItem("shimmerwood_log", SHIMMERWOOD_LOG);
-        registerItem("shimmerwood_planks", SHIMMERWOOD_LOG);
+        registerItem("shimmerwood_planks", SHIMMERWOOD_PLANKS);
     }
     private static Item registerItem(String name, Item item) {
         ItemGroupEvents.modifyEntriesEvent(LUMINISCIA_GROUP).register(content -> {
