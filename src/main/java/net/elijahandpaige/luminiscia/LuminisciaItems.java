@@ -20,6 +20,7 @@ public class LuminisciaItems {
     public static final Item SHIMMERWOOD_LOG = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_LOG, new FabricItemSettings());
     public static final Item SHIMMERWOOD_PLANKS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
     public static final Item SHIMMERWOOD_STAIRS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
+    public static final Item SHIMMERWOOD_SLAB = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
     public static final Item PYROFLUXITE = new Item(new FabricItemSettings());
 
     public static ItemGroup LUMINISCIA_GROUP = FabricItemGroup.builder(
@@ -34,6 +35,7 @@ public class LuminisciaItems {
         registerItem("shimmerwood_log", SHIMMERWOOD_LOG);
         registerItem("shimmerwood_planks", SHIMMERWOOD_PLANKS);
         registerItem("shimmerwood_planks", SHIMMERWOOD_STAIRS);
+        registerItem("shimmerwood_slab", SHIMMERWOOD_SLAB);
     }
     private static Item registerItem(String name, Item item) {
         ItemGroupEvents.modifyEntriesEvent(LUMINISCIA_GROUP).register(content -> {
