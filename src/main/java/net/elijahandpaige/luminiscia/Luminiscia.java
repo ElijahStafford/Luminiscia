@@ -61,7 +61,11 @@ public class Luminiscia implements ModInitializer {
 
     private static void registerFuels() {
         FuelRegistry registry = FuelRegistry.INSTANCE;
-        registry.add(LuminisciaItems.SHIMMERWOOD_LOG, 500);
+        registry.add(LuminisciaItems.SHIMMERWOOD_LOG, 300);
+        registry.add(LuminisciaItems.SHIMMERWOOD_PLANKS, 300);
+        registry.add(LuminisciaItems.SHIMMERWOOD_SLAB, 150);
+        registry.add(LuminisciaItems.SHIMMERWOOD_STAIRS , 300);
+
 
     }
 
@@ -69,6 +73,9 @@ public class Luminiscia implements ModInitializer {
         FlammableBlockRegistry flamInstance = FlammableBlockRegistry.getDefaultInstance();
 
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_LOG, 5, 5);
+        flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_PLANKS, 20, 5);
+        flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_SLAB, 20, 5);
+        flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_STAIRS, 20, 5);
 
     }
 }

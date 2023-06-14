@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "minecraft:block/slab_top",
   "textures": {
     "bottom": "luminiscia:block/shimmerwood_planks",
     "side": "luminiscia:block/shimmerwood_planks",
