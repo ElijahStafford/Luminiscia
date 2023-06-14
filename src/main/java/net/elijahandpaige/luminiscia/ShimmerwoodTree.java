@@ -24,6 +24,12 @@ import static net.elijahandpaige.luminiscia.Luminiscia.MOD_ID;
 
 public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
     public Random rand = new Random();
+    public static final Identifier ID = new Identifier(MOD_ID, "shimmerwood_tree");
+    public static Feature<DefaultFeatureConfig> FEATURE = new ShimmerwoodTree(DefaultFeatureConfig.CODEC);
+    public static ConfiguredFeature<DefaultFeatureConfig, ShimmerwoodTree> CONFIGURED = new ConfiguredFeature<>(
+            (ShimmerwoodTree) FEATURE,
+            new DefaultFeatureConfig()
+    );
 
     public ShimmerwoodTree(Codec<DefaultFeatureConfig> codec) {
         super(codec);

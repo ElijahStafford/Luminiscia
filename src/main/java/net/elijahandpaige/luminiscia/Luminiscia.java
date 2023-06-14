@@ -28,34 +28,16 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class Luminiscia implements ModInitializer {
     public static final String MOD_ID = "luminiscia";
 
-    public static final Identifier SHIMMERWOOD_TREE_ID = new Identifier(MOD_ID, "shimmerwood_tree");
-    public static Feature<DefaultFeatureConfig> SHIMMERWOOD_TREE = new ShimmerwoodTree(DefaultFeatureConfig.CODEC);
-    public static ConfiguredFeature<DefaultFeatureConfig, ShimmerwoodTree> SHIMMERWOOD_TREE_CONFIGURED = new ConfiguredFeature<>(
-            (ShimmerwoodTree) SHIMMERWOOD_TREE,
-            new DefaultFeatureConfig()
-    );
-
     @Override
     public void onInitialize() {
+        // Register blocks and items
         LuminisciaBlocks.registerAll();
         LuminisciaItems.registerAll();
-
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(literal("test")
-                    .executes(context -> {
-                        var source = context.getSource();
-                        ServerWorld serverWorld = source.getWorld();
-                        var pos = BlockPos.ofFloored(source.getPosition());
-                        SHIMMERWOOD_TREE_CONFIGURED.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), serverWorld.getRandom(), pos);
-                        return 1;
-                    }));
-        });
-
-        Registry.register(Registries.FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE);
-        // Registry.register(RegistryKeys.CONFIGURED_FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE_CONFIGURED);
-
         registerFuels();
         registerFlammableBlock();
+
+        // Register terrain generation objects
+        Registry.register(Registries.FEATURE, ShimmerwoodTree.ID, ShimmerwoodTree.FEATURE);
     }
 
 
@@ -65,8 +47,6 @@ public class Luminiscia implements ModInitializer {
         registry.add(LuminisciaItems.SHIMMERWOOD_PLANKS, 300);
         registry.add(LuminisciaItems.SHIMMERWOOD_SLAB, 150);
         registry.add(LuminisciaItems.SHIMMERWOOD_STAIRS , 300);
-
-
     }
 
     private static void registerFlammableBlock() {
@@ -76,6 +56,5 @@ public class Luminiscia implements ModInitializer {
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_PLANKS, 20, 5);
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_SLAB, 20, 5);
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_STAIRS, 20, 5);
-
     }
 }

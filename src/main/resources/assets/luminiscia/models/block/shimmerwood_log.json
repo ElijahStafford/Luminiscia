@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "luminiscia:block/shimmer_wood_log_top",
-    "side": "luminiscia:block/shimmer_wood_bark"
+    "end": "luminiscia:block/shimmerwood_log_top",
+    "side": "luminiscia:block/shimmerwood_bark"
   }
 }
