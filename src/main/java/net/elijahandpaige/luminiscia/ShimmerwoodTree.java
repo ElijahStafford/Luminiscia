@@ -34,7 +34,10 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         final int STEM_PITCH_MAX = -70;
         final int STEM_ROTATE_MIN = 40;
         final int STEM_ROTATE_MAX = 120;
-        final int STEM_STEPS = 5;
+        final int STEM_STEPS_MIN = 4;
+        final int STEM_STEPS_MAX = 14;
+
+        var steps = rand.nextInt(STEM_STEPS_MIN, STEM_STEPS_MAX);
 
         StructureWorldAccess world = context.getWorld();
         Vec3i currPos = context.getOrigin();
@@ -46,8 +49,8 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         var clockwise = rand.nextBoolean() ? 1 : -1;
         var totalRot = rand.nextInt(360);
 
-        for (int i = 0; i <= STEM_STEPS; i++) {
-            float fraction = i / (float)STEM_STEPS;
+        for (int i = 0; i <= steps; i++) {
+            float fraction = i / (float)steps;
             float centerFract = Math.max(1 - Math.abs(0.5f - (0.2f + fraction * 0.8f)) * 2, 0);
 
             totalRot += clockwise * rand.nextInt(STEM_ROTATE_MIN, STEM_ROTATE_MAX);
@@ -62,7 +65,7 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
 
             helixPositions.add(helixPos);
 
-            if (i == STEM_STEPS) {
+            if (i == steps) {
                 for (int x = 0; x >= -60; x -= 20) {
                     for (int y = 0; y < 360; y += 60 - x) {
                         branch(world, currPos, x, y, 0);
@@ -73,8 +76,8 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
             currPos = rotateVector(stemDirectionVector, rotation, currPos);
         }
 
-        drawCurve(world, stemPositions, STEM_STEPS * 5, 6, 2);
-        drawCurve(world, helixPositions, STEM_STEPS * 10, 3, 2);
+        drawCurve(world, stemPositions, steps * 5, 6, 2);
+        drawCurve(world, helixPositions, steps * 10, 3, 2);
 
         return true;
     }
