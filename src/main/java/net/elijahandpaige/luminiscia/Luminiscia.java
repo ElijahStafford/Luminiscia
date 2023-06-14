@@ -39,7 +39,6 @@ public class Luminiscia implements ModInitializer {
     public void onInitialize() {
         LuminisciaBlocks.registerAll();
         LuminisciaItems.registerAll();
-//        ShimmerwoodTree.register();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("test")
@@ -55,12 +54,6 @@ public class Luminiscia implements ModInitializer {
         Registry.register(Registries.FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE);
         // Registry.register(RegistryKeys.CONFIGURED_FEATURE, SHIMMERWOOD_TREE_ID, SHIMMERWOOD_TREE_CONFIGURED);
 
-//    public static Vec3i splinePositions(ArrayList<Vec3i> positions, double position) {
-//        if (positions.size() <= 1)
-//            return positions.get(0);
-//
-//
-//    }
         registerFuels();
         registerFlammableBlock();
     }
