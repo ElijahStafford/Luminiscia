@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/inner_stairs",
+  "parent": "minecraft:block/outer_stairs",
   "textures": {
     "bottom": "luminiscia:block/shimmerwood_planks",
     "side": "luminiscia:block/shimmerwood_planks",

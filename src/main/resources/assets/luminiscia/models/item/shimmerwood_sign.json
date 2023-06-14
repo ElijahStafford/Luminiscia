@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "luminiscia:item/shimmerwood_sign"
+  }
+}
