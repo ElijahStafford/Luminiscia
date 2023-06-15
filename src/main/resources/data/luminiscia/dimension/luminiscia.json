@@ -2,7 +2,7 @@
   "type": "luminiscia:luminiscia",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:overworld",
+    "settings": "minecraft:amplified",
     "biome_source": {
       "type": "minecraft:fixed",
       "biome": "luminiscia:shimmering_grove"

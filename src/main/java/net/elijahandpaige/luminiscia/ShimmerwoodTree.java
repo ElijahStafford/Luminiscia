@@ -40,10 +40,13 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
         final int STEM_PITCH_MAX = -70;
         final int STEM_ROTATE_MIN = 40;
         final int STEM_ROTATE_MAX = 120;
-        final int STEM_STEPS_MIN = 4;
-        final int STEM_STEPS_MAX = 14;
+        final int STEM_STEPS_MIN = 7;
+        final int STEM_STEPS_MAX = 30;
+        final int STEM_RADIUS_MIN = 5;
+        final int STEM_RADIUS_MAX = 10;
 
         var steps = rand.nextInt(STEM_STEPS_MIN, STEM_STEPS_MAX);
+        var stemRadius = rand.nextInt(STEM_RADIUS_MIN, STEM_RADIUS_MAX);
 
         StructureWorldAccess world = context.getWorld();
         Vec3i currPos = context.getOrigin();
@@ -82,7 +85,7 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
             currPos = rotateVector(stemDirectionVector, rotation, currPos);
         }
 
-        drawCurve(world, stemPositions, steps * 5, 6, 2);
+        drawCurve(world, stemPositions, steps * 5, stemRadius, 2);
         drawCurve(world, helixPositions, steps * 10, 3, 2);
 
         return true;
@@ -138,8 +141,9 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
             Vec3i newPos = null;
 
             int sphereProgress = LEAVES_RADIUS + 2;
+            float sphereIterate = 0.8f;
 
-            for (float i = 0; i <= dist; i += 0.8) {
+            for (float i = 0; i <= dist; i += sphereIterate) {
                 float scalar = i / dist;
                 scalar *= (depth + 1) / (float)MAX_DEPTH;
 
@@ -151,7 +155,7 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
 
                 sphereProgress++;
 
-                if (sphereProgress > LEAVES_RADIUS + 2 || i > dist - 0.8) {
+                if (sphereProgress > LEAVES_RADIUS + 2 || i > dist - sphereIterate) {
                     sphereProgress = 0;
                     for (int x = -LEAVES_RADIUS; x <= LEAVES_RADIUS; x++) {
                         for (int y = -LEAVES_RADIUS; y <= LEAVES_RADIUS; y++) {
@@ -163,14 +167,16 @@ public class ShimmerwoodTree extends Feature<DefaultFeatureConfig> {
                                 }
 
                                 var pos = new BlockPos(newPos).add(x, y, z);
-                                if (world.isAir(pos))
-                                    setBlockState(world, pos, Blocks.BLUE_STAINED_GLASS.getDefaultState());
+                                if (world.isPosLoaded(pos.getX(), pos.getZ()) && world.isAir(pos))
+                                    setBlockState(world, pos, Blocks.CYAN_STAINED_GLASS.getDefaultState());
                             }
                         }
                     }
                 }
 
-                setBlockState(world, new BlockPos(newPos), LuminisciaBlocks.SHIMMERWOOD_LOG.getDefaultState());
+                var pos = new BlockPos(newPos);
+                if (world.isPosLoaded(pos.getX(), pos.getZ()))
+                    setBlockState(world, pos, LuminisciaBlocks.SHIMMERWOOD_LOG.getDefaultState());
             }
 
             branch(world, newPos, rotationX, rotationY, depth + 1);
