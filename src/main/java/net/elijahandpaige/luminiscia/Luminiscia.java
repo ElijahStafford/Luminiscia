@@ -5,16 +5,20 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
+import net.kyrptonaught.customportalapi.event.CPASoundEventData;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.block.pattern.CachedBlockPosition;
+import net.minecraft.client.sound.Sound;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -27,6 +31,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class Luminiscia implements ModInitializer {
     public static final String MOD_ID = "luminiscia";
+    public static Identifier DIMENSION_ID = new Identifier("luminiscia:luminiscia");
 
     @Override
     public void onInitialize() {
@@ -38,6 +43,19 @@ public class Luminiscia implements ModInitializer {
 
         // Register terrain generation objects
         Registry.register(Registries.FEATURE, ShimmerwoodTree.ID, ShimmerwoodTree.FEATURE);
+
+        // Register dimension
+        CustomPortalBuilder.beginPortal()
+                .frameBlock(LuminisciaBlocks.PYROFLUXITE_ORE)
+                .lightWithItem(LuminisciaItems.PYROFLUXITE)
+                .destDimID(DIMENSION_ID)
+                .tintColor(2963512)
+                .registerPostTPPortalAmbience(playerEntity -> {
+                    boolean enteredLuminiscia = playerEntity.getWorld().getDimensionEntry().matchesId(DIMENSION_ID);
+                    String sound = enteredLuminiscia ? "luminiscia:portal.travel" : "minecraft:block.portal.travel";
+                    return new CPASoundEventData(SoundEvent.of(new Identifier(sound)), 1, 1);
+                })
+                .registerPortal();
     }
 
 
