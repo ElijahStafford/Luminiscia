@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "luminiscia:block/shimmerwood_log_top",
+    "side": "luminiscia:block/shimmerwood_stripped"
+  }
+}

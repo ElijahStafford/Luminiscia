@@ -22,6 +22,7 @@ import java.util.Set;
 public class LuminisciaBlocks {
     public static final Block PYROFLUXITE_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(3.0f, 3.0f));
     public static final Block SHIMMERWOOD_LOG = new PillarBlock(FabricBlockSettings.copy(Blocks.OAK_LOG).strength(4.0f).requiresTool());
+    public static final Block SHIMMERWOOD_STRIPPED_LOG = new PillarBlock(FabricBlockSettings.copy(Blocks.OAK_LOG).strength(4.0f).requiresTool());
     public static final Block SHIMMERWOOD_PLANKS = new Block(FabricBlockSettings.copy(Blocks.OAK_PLANKS).strength(4.0f).requiresTool());
     public static final Block SHIMMERWOOD_STAIRS = new StairsBlock(SHIMMERWOOD_PLANKS.getDefaultState(), FabricBlockSettings.copy(Blocks.OAK_PLANKS).strength(4.0f).requiresTool());
     public static final Block SHIMMERWOOD_SLAB = new SlabBlock(FabricBlockSettings.copy(Blocks.OAK_PLANKS).strength(4.0f).requiresTool());
@@ -33,6 +34,7 @@ public class LuminisciaBlocks {
         registerBlock("shimmerwood_planks", SHIMMERWOOD_PLANKS);
         registerBlock("shimmerwood_stairs", SHIMMERWOOD_STAIRS);
         registerBlock("shimmerwood_slab", SHIMMERWOOD_SLAB);
+        registerBlock("shimmerwood_stripped_log", SHIMMERWOOD_STRIPPED_LOG);
         //registerBlock("shimmerwood_sign", SHIMMERWOOD_SIGN);
     }
 

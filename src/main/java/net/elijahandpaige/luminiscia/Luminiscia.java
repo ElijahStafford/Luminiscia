@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.kyrptonaught.customportalapi.event.CPASoundEventData;
 import net.minecraft.block.Block;
@@ -40,6 +41,7 @@ public class Luminiscia implements ModInitializer {
         LuminisciaItems.registerAll();
         registerFuels();
         registerFlammableBlock();
+        registerStrippables();
 
         // Register terrain generation objects
         Registry.register(Registries.FEATURE, ShimmerwoodTree.ID, ShimmerwoodTree.FEATURE);
@@ -62,6 +64,7 @@ public class Luminiscia implements ModInitializer {
     private static void registerFuels() {
         FuelRegistry registry = FuelRegistry.INSTANCE;
         registry.add(LuminisciaItems.SHIMMERWOOD_LOG, 300);
+        registry.add(LuminisciaItems.SHIMMERWOOD_STRIPPED_LOG, 300);
         registry.add(LuminisciaItems.SHIMMERWOOD_PLANKS, 300);
         registry.add(LuminisciaItems.SHIMMERWOOD_SLAB, 150);
         registry.add(LuminisciaItems.SHIMMERWOOD_STAIRS , 300);
@@ -71,8 +74,13 @@ public class Luminiscia implements ModInitializer {
         FlammableBlockRegistry flamInstance = FlammableBlockRegistry.getDefaultInstance();
 
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_LOG, 5, 5);
+        flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_STRIPPED_LOG, 5, 5);
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_PLANKS, 20, 5);
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_SLAB, 20, 5);
         flamInstance.add(LuminisciaBlocks.SHIMMERWOOD_STAIRS, 20, 5);
+    }
+
+    private static void registerStrippables() {
+        StrippableBlockRegistry.register(LuminisciaBlocks.SHIMMERWOOD_LOG,LuminisciaBlocks.SHIMMERWOOD_STRIPPED_LOG);
     }
 }

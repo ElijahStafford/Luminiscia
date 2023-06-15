@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
 public class LuminisciaItems {
     public static final Item PYROFLUXITE_ORE = new BlockItem(LuminisciaBlocks.PYROFLUXITE_ORE, new FabricItemSettings());
     public static final Item SHIMMERWOOD_LOG = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_LOG, new FabricItemSettings());
+    public static final Item SHIMMERWOOD_STRIPPED_LOG = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_STRIPPED_LOG, new FabricItemSettings());
     public static final Item SHIMMERWOOD_PLANKS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_PLANKS, new FabricItemSettings());
     public static final Item SHIMMERWOOD_STAIRS = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_STAIRS, new FabricItemSettings());
     public static final Item SHIMMERWOOD_SLAB = new BlockItem(LuminisciaBlocks.SHIMMERWOOD_SLAB, new FabricItemSettings());
@@ -38,6 +39,7 @@ public class LuminisciaItems {
         registerItem("shimmerwood_planks", SHIMMERWOOD_PLANKS);
         registerItem("shimmerwood_stairs", SHIMMERWOOD_STAIRS);
         registerItem("shimmerwood_slab", SHIMMERWOOD_SLAB);
+        registerItem("shimmerwood_stripped_log", SHIMMERWOOD_STRIPPED_LOG);
         //registerItem("shimmerwood_sign", SHIMMERWOOD_SIGN);
     }
     private static Item registerItem(String name, Item item) {
